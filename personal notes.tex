@@ -1,0 +1,274 @@
+\documentclass{article}
+
+\usepackage[top=1.2 in,bottom=1 in,left=1.25 in,right=1.25 in]{geometry}
+
+\usepackage{tabu}
+\usepackage{booktabs}
+\usepackage{authblk}
+\usepackage{mathtools}
+\usepackage{amsmath,amsthm,amssymb}
+ %% Please minimize the usage of "newtheorem", "newcommand", and use
+ %% equation numbers only situation when they provide essential convenience
+ %% Try to avoid defining your own macros
+    \newtheorem{theorem}{Theorem}[section]
+    \newtheorem{proposition}{Proposition}[section]
+    \newtheorem{corollary}{Corollary}[section]
+    \newtheorem{lemma}{Lemma}[section]
+    \newtheorem{remark}{Remark}[section]
+    \newtheorem{definition}{Definition}[section]
+  \usepackage{paralist}
+  \usepackage{graphics} %% add this and next lines if pictures should be in esp format
+  \usepackage{epsfig} %For pictures: screened artwork should be set up with an 85 or 100 line screen
+\usepackage{graphicx}  \usepackage{epstopdf}%This is to transfer .eps figure to .pdf figure; please compile your paper using PDFLeTex or PDFTeXify.
+ \usepackage[colorlinks=true]{hyperref}
+   % Warning: when you first run your tex file, some errors might occur,
+   % please just press enter key to end the compilation process, then it will be fine if you run your tex file again.
+   % Note that it is highly recommended by AIMS to use this package.
+\hypersetup{urlcolor=blue, citecolor=red}
+%\usepackage{hyperref}
+
+
+\DeclareMathOperator{\ima}{im}
+\DeclareMathOperator{\charct}{char}
+
+\title{Notes for $\mathrm{C}^*$-algebra}
+\author{JUNQI YANG}
+\affil{School of Mathematical Sciences, Tongji University, Shanghai, 200092, China\\
+(e-mail: yjq24@live.cn)}
+\providecommand{\keywords}[1]{\textbf{\textit{Key words and phrases.}} #1}
+
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+These notes are based on my knowledge of topology, functional analysis and operator algebra that I have gained throughout my graduate studies.
+\end{abstract}
+\keywords{Operator algebra.}
+
+
+\section{Basic algebra}
+
+\begin{proposition}
+Any ring $R$ without a unit can be imbedded into a unital ring $R_1$ such that $\charct R = \charct R_1$.
+\end{proposition}
+
+\begin{proof}
+If $\charct R = 0$, set $R_1 = R \times \mathbb{Z}$ and define $(r,n) \cdot (s,m) = (rs + mr + ns, nm)$.
+If $\charct R = p$, set $R_1 = R \times \mathbb{Z}_p$ and do the same work.
+\end{proof}
+
+\begin{proposition}
+In the category of $\mathbb{Z}$-module, $(\mathbb{Q},+)$ is not projective.
+\end{proposition}
+
+\begin{proof}
+We construct an epimorphism  $p:\oplus_{n=1}^\infty \mathbb{Z} \to \mathbb{Q}$ and claim that the identity map on $\mathbb{Q}$ has no lifting homomorphism $h : \mathbb{Q} \to \oplus_{n=1}^\infty \mathbb{Z}$ such that $p\circ h = \text{id}_\mathbb{Q}$.
+
+Define $p (a_1,a_2,\cdots) = \sum_{n=1}^{\infty} \frac{a_n}{n}$, where $a_i \in \mathbb{Z}$ for all $i$ and $a_i \ne 0$ for finite many $i$.
+Recall that the only homomorphism from $\mathbb{Q}$ to $\mathbb{Z}$ is zero. It is not hard to prove that any homomorphism from $\mathbb{Q}$ to $\oplus_{n=1}^\infty \mathbb{Z}$ is zero also. 
+\end{proof}
+
+\begin{theorem}
+If $D$ is a unital ring such that any unital left $D$-module is free, then $D$ is a division ring.
+\end{theorem}
+
+\begin{proof}
+Claim: if $D$ has no proper left ideal, then $D$ is a division ring.
+
+If $D$ is not a division ring, there exists an nonzero elment $a$ which is not invertible such that $Da$ is a proper left ideal.
+If any nonzero invertible element $a$ has a left inverse $b$ such that $ba=1$, then $abab=ab$. But $ab$ has a left inverse, namely $c$, such that $cab=1$.
+Then $ab=cabab=cab=1$, which means $a$ is invertible. A contridiction.
+
+Now if $D$ has a maximal left ideal $L$, then $L$ is a submodule of $D$ such that the quotient $D/L$ has no proper submodule. Since $D/L$ is a free left $D$-module, pick a element $x_0$ from the basis of $D/L$ and $D x_0 = \{ r x_0 : r \in D\}$ is a submodule of $D/L$, which means $D x_0 = D/L$. But $D x_0$ is isomorphic to $D$ as left $D$-module via $r x_0 \mapsto r$, hence $D$ has no proper submodule.
+
+\end{proof}
+
+
+\section{Category argument}
+
+\begin{table}[!htbp]
+  \centering
+  \caption{Category in operator algebra}
+  \begin{tabular}{cc}
+      \toprule
+      Object & Morphism \\
+      \midrule
+      Banach space & Bounded linear map \\
+      Operator space & Completely bounded linear map\\
+      Operator system & Contractive completely positive linear map\\
+      Operator algebra & Completely contractive homomorphism \\
+      $\mathrm{C}^*$-algebra & $*$-homomorphism \\
+      Operator module & Completely bounded module map \\
+      \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{definition}
+An operator space $X$ is a closed subspace of a $\mathrm{C}^*$-algebra. An operator system $E$ is a closed self-adjoint subspace of a unital $\mathrm{C}^*$-algebra $A$ such that $1_A \in E$. An operator algebra is a closed subalgebra of $\mathcal{B}(\mathcal{H})$ for some Hilbert space $\mathcal{H}$.
+\end{definition}
+
+\begin{theorem}[Hahn-Banach theorem]
+In the category of Banach space, $\mathbb{C}$ is injective.
+\end{theorem}
+
+\begin{theorem}[Open mapping theorem]
+Let $0 \to X \xrightarrow{T} Y \xrightarrow{S} Z \to 0$ be a short exact sequence in the category of Banach space. Then there exists a closed subspace $W$ of $Y$ such that $0 \to W \xrightarrow{\iota} Y \xrightarrow{\pi} Y/W \to 0$ is isomorphic to the short exact sequence.
+\end{theorem}
+
+\begin{proof}
+Let $W=TX$ be the subspace of $Y$. Then $W = \ker S$ is closed. By the inverse operator theorem, the isomorphism from $X$ to $W$ is given by $T$.
+The linear isomorphism $\tilde{S}$ from $Y/W$ to $Z$ is given by the fundamental homomorphism theorem such that $\tilde{S} \pi = S$. Remember that the quotient map $\pi$ is surjective, hence open.
+So $\tilde{S}^{-1} (O_Z) = \pi S^{-1} (O_Z)$ is open in $Y/W$ for any open set $O_Z \in Z$. So $\tilde{S}$ is continuous linear bijection.
+\end{proof}
+
+\begin{theorem}[Arveson's theorem]
+In the category of Operator systems, $\mathcal{B}(\mathcal{H})$ is injective. This is even true in the category of Operator spaces.
+\end{theorem}
+
+
+\section{Functional analysis}
+
+\begin{theorem}
+Suppose $T:X\to Y$ is a bounded linear operator between Banach spaces, and $T$ maps closed set to closed set. Then $T$ is either zero or injective, hence continuous and with closed graph.
+\end{theorem}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{theorem}
+Suppose $T:X\to Y$ is a bounded linear operator between Banach spaces, and $\dim (Y/ TX) < \infty$. Then $TX$ is closed in $Y$.
+\end{theorem}
+
+\begin{proof}
+Without loss of generality, assume that $T$ is injective. Otherwise, consider $T':X/\ker T \to Y$ defined by $T'(x+\ker T) = Tx$, then $TX = T'(X/\ker T)$. Denote $Z\subset Y$ such that $Y = TX \oplus Z$. It can be done by Zorn's lemma or the Hamel basis of $Y/TX$. Since $Z$ is isomorphic to $Y/TX$ with $z \mapsto z+TX$, $Z$ is finite dimensional subspace of $Y$, hence closed subspace. Let $T_1 : X \oplus_1 Z \to Y$ such that $T_1 (x,z) = Tx + z$. Then $T_1$ is a continuous bijection between Banach spaces. Thus $T_1^{-1}$ is continuous. For any $x \in X$,
+\[
+\| x\| = \| T_1^{-1}Tx\| \leq \| T_1^{-1} \| \cdot \| Tx\| \implies \| Tx\| \geq \frac{1}{\| T_1^{-1}\|} \| x\| .
+\]
+So $T$ is bounded below. Make an arguement of Cauchy sequences and one can deduce that $TX$ is closed.
+\end{proof}
+
+\begin{theorem}
+Suppose $T:X\to Y$ is a bounded linear operator between Banach spaces, and $K:X\to Y$ is a compact operator so that $TX \subset KX$. Prove that $T$ is compact operator.
+\end{theorem}
+
+\begin{proof}
+\end{proof}
+
+
+\section{Topology}
+
+\subsection{Topology on $\mathcal{B}(\mathcal{H})$}
+
+
+\section{Basics in $\mathrm{C}^*$-algebra}
+
+
+\begin{theorem}\label{spectrum_coincide}
+Suppose that $A$ is a unital $\mathrm{C}^*$-algebra and $B$ is a $\mathrm{C}^*$-subalgebra of $A$ such that $1_A \in B$.
+Then $\text{sp}_B (x) = \text{sp}_A (x)$ for all $x \in B$.
+\end{theorem}
+
+\begin{proof}
+
+It suffices to prove that if $x$ is invertible in $A$, then $x$ is invertible in $B$. Firstly assume $x$ is self-adjoint. Then $\text{sp}_A (x)$ and $\text{sp}_B (x)$ are subsets of real numbers. Hence $x + \mathrm{i} \epsilon$ is invertible in $B$ for any $\epsilon >0$. Since the inverse map is continuous and x is invertible in $A$, we have
+$(x + \mathrm{i} \epsilon)^{-1} \to x^{-1}$ in $A$. It means $B$ is closed, so $x^{-1} \in B$.
+Now let $x$ be arbitary and invertible in $A$. Then $ x^* x, xx^*$ are invertible self-adjoint element in $A$ and hence invertible in $B$. So
+\begin{align*}
+\exists y \in B , \text{ such that } yx^*x = x^* x y = 1 & \implies x \text{ is left invertible in } B,\\
+\exists z \in B , \text{ such that } zxx^*  = xx^* z = 1 & \implies x \text{ is right invertible in } B.
+\end{align*}
+So $x$ is invertible in $B$.
+\end{proof}
+
+
+\begin{theorem}
+If $a$ is a normal element in a unital $\mathrm{C}^*$-algebra $A$. Then there is an isometric $*$-isomorphism from $\mathrm{C}^* (a,1_A)$ to $C(\text{sp}(a))$ which sends $a$ to the identity function on $\text{sp}(a)$.
+\end{theorem}
+
+\begin{proof}
+Since $a$ is normal, the polynomial algebra generated by $a$ and $a^*$ is commutative, and so is its closure $B = \mathrm{C}^* (a,1_A)$. We know that the Gelfand transformation gives an isometric $*$-isomorphism from $B$ to $C(\Omega(B))$.
+
+From Theorem \ref{spectrum_coincide} we see that $\text{sp}_B(a) = \text{sp}_A (a)$. So the map $\hat{a}: \Omega(B) \to \text{sp}(a)$ gives an continuous sujective between compact spaces. It is not hard to check this map is injective. So it is a homeomorphism.
+\end{proof}
+
+
+\begin{corollary}
+If $a$ is a normal element in a unital $\mathrm{C}^*$-algebra $A$, then there is an isometric $*$-isomorphism from $\mathrm{C}^* (a)$ to $C_0 (\text{sp}(a) \setminus \{ 0 \})$, which sends $a$ to the identity function on $\text{sp}(a) \setminus \{ 0 \}$.
+\end{corollary}
+
+\begin{proof}
+Denote $\Gamma : \mathrm{C}^* (a,1_A) \to C(\text{sp}(a))$ the $*$-isomorphism in the theorem above. Then $\Gamma$ sends $a$ to the identity function on $\text{sp}(a)$ (acturally, $\Gamma(x) = \hat{x} \hat{a}^{-1}$).
+
+If $a$ is invertible in $A$. Then $\mathrm{C}^* (a) = \mathrm{C}^* (a,1_A)$, $\text{sp}(a) = \text{sp}(a) \setminus \{ 0\}$. Suppose that $\mathrm{C}^* (a) \subsetneqq \mathrm{C}^* (a,1_A)$, then $\mathrm{C}^* (a)$ is a maximal ideal of $\mathrm{C}^* (a,1_A)$.
+So $\Gamma (\mathrm{C}^* (a))$ is a maximal ideal of $C(\text{sp}(a))$, which has the form $\{ f \in C(\text{sp}(a)): f (z_0) = 0\}$ for some $z_0 \in \text{sp}(a)$ (acturally $z_0 = \hat{a} (\pi)$, where $\pi \in \Omega(\mathrm{C}^* (a,1_A))$ such that $\ker \pi = \mathrm{C}^* (a)$ and $\pi (1_A)=1$). Since $a \in \mathrm{C}^* (a)$, we have $\text{id} \in \Gamma (\mathrm{C}^* (a))$ and $z_0 = 0$. It means $a$ is not invertible, a contradiction. So
+\[
+\mathrm{C}^* (a) = \mathrm{C}^* (a,1_A) \cong C(\text{sp}(a)) = C(\text{sp}(a)\setminus \{ 0\}) = C_0 (\text{sp}(a)\setminus \{ 0\}).
+\]
+
+If $a$ is not invertible in $A$. Then $0 \in \text{sp}(a)$ and $C_0 (\text{sp}(a) \setminus \{ 0\})$ can be identified with the maximal ideal $M_0 = \{ f \in C(\text{sp}(a)) : f(0)=0\}$ of $C(\text{sp}(a))$. Since $\Gamma (a) \in M_0$, it follows that $\Gamma (\mathrm{C}^*(a)) \subset M_0$. Note that both $\mathrm{C}^*(a)$ and $M_0$ are maximal ideals in the respective algebras $\mathrm{C}^* (a,1_A)$ and $C(\text{sp}(a))$, and this implies that $\Gamma (\mathrm{C}^*(a)) = M_0 \cong C_0 (\text{sp}(a) \setminus \{ 0\})$.
+
+\end{proof}
+
+
+\begin{corollary}
+Let $(A,\| \cdot \|_A)$ be a commutative $\mathrm{C}^*$-algebra, $\| \cdot \|_1$ another norm on $A$ under which $A$ is a normed algebra.
+Then $\| \cdot \|_A \leq \| \cdot \|_1$.
+\end{corollary}
+
+\begin{proof}
+Without loss of generality, assume that $A$ is unital. Identify $A$ as $C(\Omega(A))$ for $\Omega(A) = \{ \phi : A \to \mathbb{C} \mid \phi \text{ is non-zero algebra homomorphism}\}$. Set $K_1 = \{ \phi \in \Omega(A) \mid \phi \text{ is } \| \cdot \|_1 \text{-continuous}\}$ and let $A_1$ be the completion of $(A,\| \cdot \|_1)$. We claim that the weak-$*$ closure of $K_1$ is $\Omega(A)$.
+If so, then we have
+\begin{align*}
+\| a \|_1 & \geq r_{A_1}(a) = \sup \{ |t(a)| : t \in \Omega(A_1)\} \\
+& = \sup \{ |\phi (a)| : \phi \in K_1 \} \\
+& = \sup \{ |\hat{a}(\phi)| : \phi \in K_1\} \\
+& = \sup \{ |\hat{a} (\phi)| : \phi \in K_1\} \\
+& = \| \hat{a} \|_{\infty} = \| a\|_A \,.
+\end{align*}
+Note that if $t \in \Omega(A_1)$, then $t|_A \in K_1$; Conversely if $\phi \in K_1$, then $\phi$ can be extend to $t : A_1 \to \mathbb{C}$ such that $\|\phi\| = \| t\|$.
+
+Suppose $\overline{K_1} \subsetneqq \Omega(A)$, then there exists some $t_0 \in \Omega(A) \setminus \overline{K_1}$. Since compact Hausdorff space is normal, we can find an open set $G \subset \Omega(A)$ such that $\{ t_0 \} \subset G \subset \overline{G} \subset \Omega(A) \setminus \overline{K_1}$. So $\overline{G} \cap \overline{K_1} = \varnothing$. By Urysohn's lemma,
+\[
+\exists \hat{b} \in C(\Omega(A)) \text{ such that } \hat{b} |_{\overline{G}} = 0 \text{ and } \hat{b} |_{\overline{K_1}}=1.
+\]
+It means $b$ is not invertible in $A$. Note that $\{ t_0\} \cap (\Omega(A) \setminus G) = \varnothing$. By Urysohn's lemma again
+\[
+\exists \hat{b'} \in C(\Omega(A)) \text{ such that } \hat{b'} (t_0) = 1 \text{ and } \hat{b'} |_{\Omega(A) \setminus G}=0.
+\]
+So $\text{supp}(\hat{b'}) \subset \overline{G}$. We already find $b' \ne 0$ such that $b'b=0$ which means $b$ is not invertible in $A_1$ (Otherwise $b' = b'(bb^{-1}) = 0b^{-1}=0$). Hence
+\[
+\exists \phi \in \Omega(A_1) \text{ such that } \phi (b) = 0 \implies \phi|_{A} \in K_1 \text{ and } \hat{b} (\phi |_A) = 0
+\]
+which is contradict to $\hat{b} |_{\overline{K_1}} = 1$.
+\end{proof}
+
+\begin{remark}
+We refer to a closely related proposition in \cite{li1992introduction}, Lemma 2.1.5. If $A$ is a unital $\mathrm{C}^*$-algebra, and $h \in A_{sa}$ is an invertible element. Then there exists a sequence $p_n$ of polynomials with zero constant term such that $p_n (h) \to h^{-1}$ in norm.
+\end{remark}
+
+
+
+
+\begin{corollary}
+If $(A,\| \cdot \|_A)$ is a $\mathrm{C}^*$-algebra and $\| \cdot \|_1$ is another $\mathrm{C}^*$-norm on $A$, then $\| \cdot \|_1 = \| \cdot \|_A$.
+\end{corollary}
+
+\begin{proof}
+Without loss of generality, assume $A$ is unital. It suffices to prove that $\| h\|_1 = \| h\|_A$ for all $h \in A_{sa}$ by the $\mathrm{C}^*$-identity. Let $B=\mathrm{C}^* (h,1_A)$. Use the same arguement as the proof above and the only $\geq$ becomes $=$.
+\end{proof}
+
+
+\bibliographystyle{alpha}
+\bibliography{mybib}
+
+%\begin{thebibliography}
+%\bibitem{Example}
+%     \newblock  FirstNameInitial.  MiddleNameInitial. LastName, % first name middle initial. and then last name.  Only the first character in the paper title is capitalized.
+%     \newblock Title of the paper,
+%     \newblock \emph{Name of the Journal}, \textbf{Volume} (Year), StaringPage--EndingPage.
+%\end{thebibliography}
+
+\end{document}
